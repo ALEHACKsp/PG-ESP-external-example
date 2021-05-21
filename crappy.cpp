@@ -1,4 +1,4 @@
-﻿// 链接
+﻿//本地庫
 #include "Utils.h"
 #include "crappy.hpp"
 #include "crappy.h"
@@ -6,21 +6,7 @@
 #include "overlay.h"
 #include "Utils.h"
 #include "tsl.h"
-#include "VMProtectSDK.h"
-#include "imgui/imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui/stb_rect_pack.h"
-#include "imgui/stb_textedit.h"
-#include "imgui/stb_truetype.h"
-#include "imgui_impl_win32.h"
-#pragma comment( lib,"Dwmapi.lib" )
-#pragma  comment(lib,"d3d11.lib")
-#pragma  comment(lib,"d3dcompiler.lib")
-#pragma  comment(lib,"d3dx11.lib")
-#pragma comment(lib,"dwmapi.lib")
-#include <d3d11.h>
-#include <d3dx11.h>
-// 调用
+// 調用庫
 #include <Dwmapi.h>
 #include <iostream>
 #include <fstream>
@@ -83,27 +69,8 @@ namespace 射擊變量
 {
 	ULONG64 HookAddr;
 	ULONG64 JmpAddr;
-	/*
-	BYTE ShellCode[80] = { 0x50, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x58, 0x48, 0x83, 0xE8, 0x06, 0x48, 0x05, 0x00, 0x01, 0x00, 
-		                   0x00, 0x83, 0x78, 0xFC, 0x01, 0x75, 0x1E, 0x48, 0x8B, 0x10, 0x48, 0x89, 0x55, 0xE7, 0x8B, 0x50, 
-		                   0x08, 0x89, 0x55, 0xEF, 0x48, 0x83, 0xC0, 0x20, 0x48, 0x8B, 0x10, 0x48, 0x89, 0x55, 0xB7, 0x8B, 
-		                   0x50, 0x08, 0x89, 0x55, 0xBF, 0x58, 0x48, 0x69, 0xCF, 0x98, 0x00, 0x00, 0x00, 0x48, 0x03, 0x0B, 
-		                   0x90, 0x48, 0xBA, 0x0F, 0x31, 0xE6, 0x7E, 0xF6, 0x7F, 0x00, 0x00, 0xFF, 0xE2, 0x00, 0x00, 0x00 };
-	*/
-	BYTE ShellCode[191] = {
-		0x0F ,0x28 ,0xD8 ,0xF3 ,0x41 ,0x0F ,0x59 ,0x56 ,0x10 ,0xC3 ,0x50 ,0xE8 ,0x00 ,0x00 ,0x00 ,0x00 ,
-		0x58 ,0x48 ,0x05 ,0xBB ,0x00 ,0x00 ,0x00 ,0x83 ,0x78 ,0xFC ,0x01 ,0x75 ,0x6E ,0xD9 ,0x00 ,0x41 ,
-		0xD8 ,0x66 ,0x40 ,0xDC ,0x70 ,0xF4 ,0xD9 ,0x58 ,0x0C ,0xD9 ,0x40 ,0x04 ,0x41 ,0xD8 ,0x66 ,0x44 ,
-		0xDC ,0x70 ,0xF4 ,0xD9 ,0x58 ,0x10 ,0xD9 ,0x40 ,0x08 ,0x41 ,0xD8 ,0x66 ,0x48 ,0xDC ,0x70 ,0xF4 ,
-		0xD9 ,0x58 ,0x14 ,0x0F ,0x28 ,0xD3 ,0xF3 ,0x0F ,0x59 ,0x50 ,0x0C ,0x0F ,0x28 ,0xCB ,0xF3 ,0x0F ,
-		0x59 ,0x58 ,0x14 ,0xF3 ,0x0F ,0x59 ,0x48 ,0x10 ,0xF3 ,0x41 ,0x0F ,0x58 ,0x5E ,0x58 ,0xF3 ,0x0F ,
-		0x11 ,0x9D ,0x00 ,0x02 ,0x00 ,0x00 ,0x0F ,0x28 ,0xDA ,0x0F ,0x14 ,0xD9 ,0x49 ,0x8B ,0x4E ,0x04 ,
-		0x48 ,0x89 ,0x48 ,0x18 ,0x41 ,0x8B ,0x4E ,0x0C ,0x89 ,0x48 ,0x20 ,0x8B ,0x8D ,0x00 ,0x02 ,0x00 ,
-		0x00 ,0xF2 ,0x41 ,0x0F ,0x11 ,0x5E ,0x04 ,0x41 ,0x89 ,0x4E ,0x0C ,0x58 ,0xF3 ,0x41 ,0x0F ,0x11 ,
-		0x46 ,0x58 ,0xC3 ,0x50 ,0xE8 ,0x00 ,0x00 ,0x00 ,0x00 ,0x58 ,0x48 ,0x05 ,0x32 ,0x00 ,0x00 ,0x00 ,
-		0x83 ,0x78 ,0xFC ,0x01 ,0x75 ,0x11 ,0x51 ,0x48 ,0x8B ,0x48 ,0x18 ,0x49 ,0x89 ,0x4E ,0x04 ,0x8B ,
-		0x48 ,0x20 ,0x41 ,0x89 ,0x4E ,0x0C ,0x59 ,0x58 ,0xF3 ,0x41 ,0x0F ,0x10 ,0x46 ,0x78 ,0xC3
-	};
+
+	
 	BYTE 開启子弹追踪[] = { 0x1 };
 	BYTE 关闭子弹追踪[] = { 0x0 };
 
@@ -134,210 +101,9 @@ void HookJmp(ULONG64 GameAddress, ULONG64 MyAddress)
 
    driver->WBT(GameAddress, Jmp, sizeof(Jmp));
 	
-	//BYTE JmpCode[] = { 0xE9, 0x00, 0x00, 0x00, 0x00 };
-	//*(ULONG*)(JmpCode + 1) = MyAddress - GameAddress - sizeof(JmpCode);
-	//driver->WBT(GameAddress, JmpCode, sizeof(JmpCode));
-}
-/*
-void ApiHooK()
-{
-	ULONG64 HookjmpRetnAddr = 射擊變量::HookAddr + 0xA;
-	*(ULONG64 *)(射擊變量::ShellCode + 67) = HookjmpRetnAddr;
-	driver->WBT(射擊變量::JmpAddr, 射擊變量::ShellCode, sizeof(射擊變量::ShellCode));
-	HookJmp(射擊變量::HookAddr, 射擊變量::JmpAddr);
-}
-
-void HookAim()
-{
-	ULONG64 Aimmesh = driver->RPM<ULONG64>(全局變量::鎖定實體指針 + actor::mesh);
-	ULONG64 Localmesh = driver->RPM<ULONG64>(全局變量::pPawn + actor::mesh);
-	Vector3 AimPos = GetBoneWithRotation(Aimmesh, 射擊相關設置::射擊位置[射擊相關設置::位置參數]);
-	Vector3 LocalPos = GetBoneWithRotation(Localmesh, 射擊相關設置::射擊位置[射擊相關設置::位置參數]);
-	if (射擊相關設置::快速鎖頭)
-	{
-		if (GetAsyncKeyState(0x10))
-		{
-			AimPos = GetBoneWithRotation(Aimmesh, 射擊相關設置::射擊位置[0]);
-			LocalPos = GetBoneWithRotation(Localmesh, 射擊相關設置::射擊位置[0]);
-		}
-	}
-
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x100, LocalPos.x);
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x104, LocalPos.y);
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x108, LocalPos.z);
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x120, (AimPos.x - LocalPos.x) / 1000);
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x124, (AimPos.y - LocalPos.y) / 1000);
-	driver->WPM<FLOAT>(射擊變量::JmpAddr + 0x128, (AimPos.z - LocalPos.z) / 1000);
-
-}
-
-void hook追() {
-
-
-
 	
-	射擊變量::HookAddr = driver->RPM<ULONG64>(全局變量::pGameBase +  0x73bf2e);
-	射擊變量::JmpAddr = driver->RPM<ULONG64>(全局變量::pGameBase + 0x61fa400);
-    //全局變量::返回 = 射擊變量::HookAddr + 10;
-	BYTE ShellCode[80] = { 0x50, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x58, 0x48, 0x83, 0xE8, 0x06, 0x48, 0x05, 0x00, 0x01, 0x00, 0x00, 0x83, 0x78, 0xFC, 0x01, 0x75, 0x1E, 0x48, 0x8B, 0x10, 0x48, 0x89, 0x55, 0xE7, 0x8B, 0x50, 0x08, 0x89, 0x55, 0xEF, 0x48, 0x83, 0xC0, 0x20, 0x48, 0x8B, 0x10, 0x48, 0x89, 0x55, 0xB7, 0x8B, 0x50, 0x08, 0x89, 0x55, 0xBF, 0x58, 0x48, 0x69, 0xCF, 0x98, 0x00, 0x00, 0x00, 0x48, 0x03, 0x0B, 0x90, 0x48, 0xBA, 0x0F, 0x31, 0xE6, 0x7E, 0xF6, 0x7F, 0x00, 0x00, 0xFF, 0xE2, 0x00, 0x00, 0x00 };
-
-	/*
-	//BYTE HookAimcode[10];
-	int i;
-
-	BYTE HookAimcode[11] = { 80,232, 0, 0, 0, 0, 88,72 };
-	BYTE HookAimcode[12] = { 131, 232, 6, 72, 5, 0, 1, 0 };
-	BYTE HookAimcode[13] = { 0, 131, 120, 252, 1, 117, 30, 72 };
-	BYTE HookAimcode[14] = { 139, 16, 72, 137, 85, 231, 139, 80 };
-	BYTE HookAimcode[15] = { 8, 137, 85, 239, 72, 131, 192, 32 };
-	BYTE HookAimcode[16] = { 72, 139, 16, 72, 137, 85, 183, 139 };
-	BYTE HookAimcode[17] = { 80, 8, 137, 85, 191, 88, 72, 105 };
-	BYTE HookAimcode[18] = { 207, 152, 0, 0, 0, 72, 3, 11 };
-	BYTE HookAimcode[19] = { 144, 72, 186, 15, 49, 230, 126, 246 };
-	BYTE HookAimcode[20] = { 127, 0, 0, 255, 226, 0, 0, 0 };
-	i = 0;
-	for (int count = 10; count < 21; count++) {
-		driver->WBT(射擊變量::JmpAddr + i, (byte*)HookAimcode[count], sizeof(HookAimcode[count]));
-		i = i + 8;
-	}
-	
-	driver->WBT(射擊變量::JmpAddr + 67, (byte*)全局變量::返回, sizeof((byte*)射擊變量::JmpAddr));
-	HookJmp(射擊變量::HookAddr, 射擊變量::JmpAddr);
-	///
-	DWORD_PTR HookjmpRetnAddr = 射擊變量::HookAddr + 0xA;
-	*(DWORD_PTR *)(ShellCode + 67) = (DWORD_PTR)HookjmpRetnAddr;
-	driver->WBT(射擊變量::JmpAddr, ShellCode, sizeof(ShellCode));
-
-	BYTE Jmp[9] = { 0xE9, 0x00, 0x00, 0x00, 0x00 };
-	*(DWORD_PTR *)(Jmp + 1) = (DWORD_PTR)射擊變量::JmpAddr - 射擊變量::HookAddr - 5;
-	driver->WBT(射擊變量::HookAddr, Jmp, sizeof(Jmp));
 }
-*/
-/*
-void 無後座() {
 
-	ULONG64 WeaponProcessor = driver->RPM<ULONG64>(全局變量::pPawn + localPlayerAddr::WeaponProcessor);
-	ULONG64 EquippedWeapons = driver->RPM<ULONG64>(WeaponProcessor + WeaponProcessor::EquippedWeapons);
-	int CurrentWeaponIndex = driver->RPM<int>(WeaponProcessor + WeaponProcessor::CurrentWeaponIndex);
-
-	render->繪製文字(0, 220, Color{ 255,255,0,0 }, NULL, u8"完美無後: %d", 射擊相關設置::清除抖動);
-	if (CurrentWeaponIndex >= 0 && CurrentWeaponIndex < 3)
-	{
-
-		ULONG64 pWeapon = driver->RPM<ULONG64>(EquippedWeapons + CurrentWeaponIndex * 0x8);
-		if (pWeapon)
-		{
-		checkkkkkkkkkkkkkkkkk
-
-
-			//////////////////////記得 開鏡抖動 特徵: F3 0F 10 81 A0 4 0 0
-
-
-			ULONG64 pRecoilInfo = pWeapon + EquippedWeapons::FRecoilInfo;
-			ULONG64 pWeaponData = pWeapon + EquippedWeapons::FWeaponData;
-			ULONG64 pTrajectoryWeaponData = pWeapon + EquippedWeapons::FTrajectoryWeaponData;
-			ULONG64 pWeaponGunData = pWeapon + EquippedWeapons::FWeaponGunData;
-			ULONG64 pWeaponGunAnim = pWeapon + EquippedWeapons::FWeaponGunAnim;
-			ULONG64 pWeaponDeviationData = pWeapon + EquippedWeapons::FWeaponDeviationData;
-		
-			if (射擊相關設置::清除抖動)
-			{
-
-				///-----------無後座-----------
-				//cout << "no" << endl;
-				//原本0x48 ,0x8b ,0xCF ,0x44 ,0x0f ,0x28 ,0xe0
-				//更改0x48, 0x8b ,0xCF ,0x45 ,0x0f ,0x57 ,0xe4 更改0x44到0x45 || 0x28到0x57 || 0xe0到0xe4
-				BYTE updown[] = { 0x48, 0x8b ,0xCF ,0x45 ,0x0f ,0x57 ,0xe4 };
-				///driver->WBT(全局變量::pGameBase + hook::上下無後座, updown, sizeof(updown));
-
-
-				//原本0xe8,0x14,0x6a,0x37,0x00,0x44,0x0f,0x28,0xc8,0xeb
-				//更改0xe8,0x14,0x6a,0x37,0x00,0x45,0x0f,0x57,0xc9,0xeb  更改0x44到0x45 || 0x28到0x57 || 0xc8到0xc9 
-				BYTE rightleft[] = { 0xe8,0x40,0x72,0x37,0x00,0x45,0x0f,0x57,0xc9 };
-				///driver->WBT(全局變量::pGameBase + hook::左右無後座, rightleft, sizeof(rightleft));
-
-
-
-				//开镜 暂不使用
-				//0xf3,0x0f,0x10,0x81,0x58,0x06,0x00,0x00 原本
-				//0xf3,0x0f,0x10,0x81,0x5c,0x06,0x00,0x00 原本2
-				//BYTE openp[] = { 0xf,0x57,0xc0,0x90,0x90,0x90,0x90,0x90 };
-	
-			//driver->WBT(全局變量::pGameBase + hook::開鏡無後座, openp, sizeof(openp));
-		//driver->WBT(全局變量::pGameBase + hook::開鏡無後座 + 0xe, openp, sizeof(openp));
-
-				///-----------屏息-----------
-
-				//原本0xf3,0x0f,0x10,0x96,0x60,0x09,0x00,0x00,0x44,0x0f,0x28,0xd0,0xf3,0x0f,0x10,0x35
-				//更改0xf3,0x0f,0x10,0x96,0x60,0x09,0x00,0x00,0x45,0x0f,0x57,0xd4,0xf3,0x0f,0x10,0x35 更改0x44到0x45 || 0x28到0x57 || 0xd0到0xd4
-				BYTE updown1[] = { 0xf3,0x0f,0x10,0x96,0x48,0x09,0x00,0x00,0x45,0x0f,0x57,0xd4 };
-				///driver->WBT(全局變量::pGameBase + hook::上下屏息, updown1, sizeof(updown1));
-
-
-				//原本0x48,0x8b ,0x8e ,0x40 ,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xd4 ,0x48 ,0x8d ,0x54 ,0x24 ,0x20
-				//更改0x48,0x8b ,0x8e ,0x40 ,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xf8 ,0x48 ,0x8d ,0x54 ,0x24 ,0x20   || 0xd4到0xf8
-				BYTE rightleft1[] = { 0x48,0x8b ,0x8e ,0xc0,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xf8 };
-				///driver->WBT(全局變量::pGameBase + hook::左右屏息, rightleft1, sizeof(rightleft1));
-
-
-
-				///-----------瞬即-----------
-				//特徵:E8 ?? ?? ?? ?? F3 0F 10 40 1C F3 41
-				
-				 BYTE CA[] = { 0xe8,0x71,0x61,0x36,0x01,0xf3,0xf,0x10,0x40,0x4c };//  0x4c是 瞬即   0x1c是源值
-				 //driver->WBT(全局變量::pGameBase + hook::瞬間擊中 , CA, sizeof(CA));
-
-
-				 
-
-			
-			}
-			else {
-
-				///-----------無後座-----------
-				//原本0x48 ,0x8b ,0xCF ,0x44 ,0x0f ,0x28 ,0xe0
-				//更改0x48, 0x8b ,0xCF ,0x45 ,0x0f ,0x57 ,0xe4 更改0x44到0x45 || 0x28到0x57 || 0xe0到0xe4
-				BYTE closeupdown[] = { 0x48 ,0x8b ,0xCF ,0x44 ,0x0f ,0x28 ,0xe0 };
-				///driver->WBT(全局變量::pGameBase + hook::上下無後座, closeupdown, sizeof(closeupdown));
-
-				//原本0xe8,0x14,0x6a,0x37,0x00,0x44,0x0f,0x28,0xc8,0xeb
-				//更改0xe8,0x14,0x6a,0x37,0x00,0x45,0x0f,0x57,0xc9,0xeb  更改0x44到0x45 || 0x28到0x57 || 0xc8到0xc9 
-				BYTE closerightleft[] = { 0xe8,0x40,0x72,0x37,0x00,0x44,0x0f,0x28,0xc8};
-				///driver->WBT(全局變量::pGameBase + hook::左右無後座, closerightleft, sizeof(closerightleft));
-			
-
-				//开镜 暂不使用
-				//0xf3,0x0f,0x10,0x81,0x54,0x06,0x00,0x00 原本0
-				//0xf3,0x0f,0x10,0x81,0x58,0x06,0x00,0x00 原本
-				//0xf3,0x0f,0x10,0x81,0x5c,0x06,0x00,0x00 原本2
-				//BYTE openp[] = { 0xf3,0x0f,0x10,0x81,0x58,0x06,0x00,0x00 };
-				//BYTE openp2[] = { 0xf3,0x0f,0x10,0x81,0x5c,0x06,0x00,0x00 };
-				//driver->WBT(全局變量::pGameBase + hook::開鏡無後座, openp, sizeof(openp));
-				//driver->WBT(全局變量::pGameBase + hook::開鏡無後座2, openp2, sizeof(openp2));
-
-				///-----------屏息-----------
-				//原本0xf3,0x0f,0x10,0x96,0x60,0x09,0x00,0x00,0x44,0x0f,0x28,0xd0,0xf3,0x0f,0x10,0x35
-				//更改0xf3,0x0f,0x10,0x96,0x60,0x09,0x00,0x00,0x45,0x0f,0x57,0xd4,0xf3,0x0f,0x10,0x35 更改0x44到0x45 || 0x28到0x57 || 0xd0到0xd4
-				BYTE closeupdown1[] = { 0xf3,0x0f,0x10,0x96,0x48,0x09,0x00,0x00,0x44,0x0f,0x28,0xd0 };
-				///driver->WBT(全局變量::pGameBase + hook::上下屏息, closeupdown1, sizeof(closeupdown1));
-
-				//原本0x48,0x8b ,0x8e ,0x40 ,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xd4 ,0x48 ,0x8d ,0x54 ,0x24 ,0x20
-				//更改0x48,0x8b ,0x8e ,0x40 ,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xf8 ,0x48 ,0x8d ,0x54 ,0x24 ,0x20   || 0xd4到0xf8
-				BYTE closerightleft1[] = { 0x48,0x8b ,0x8e ,0xc0 ,0x11 ,0x00 ,0x00 ,0xf3 ,0x0f ,0x5c ,0xd4 };
-				///driver->WBT(全局變量::pGameBase + hook::左右屏息, closerightleft1, sizeof(closerightleft1));
-				
-
-				///-----------瞬即-----------
-				//特徵:E8 ?? ?? ?? ?? F3 0F 10 40 1C F3 41
-
-				BYTE CA[] = { 0xe8,0x71,0x61,0x36,0x01,0xf3,0xf,0x10,0x40,0x1c };//  0x4c是 瞬即   0x1c是源值
-			//	driver->WBT(全局變量::pGameBase + hook::瞬間擊中, CA, sizeof(CA));
-
-			}
-		}
-	}
-}
-*/
 void 聲音提示()
 {
 	Beep(300, 40);
@@ -380,17 +146,7 @@ void 寫入內存()
 		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxCustomMovementSpeed, 5250.f);//MaxCustomMovementSpeed
 		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxAcceleration, 5250.f);//MaxAcceleration
 		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxSwimAcceleration, 5250.f);//MaxSwimAcceleration
-		/*
-		cout << "爬行" << driver->RPM<float>(UPawnMovementComponent + MaxProneSpeed)<< endl; 50
-		cout << "倒地" << driver->RPM<float>(UPawnMovementComponent + MaxGroggySpeed) << endl;100
-		cout << "坪走" << driver->RPM<float>(UPawnMovementComponent + MaxWalkSpeed) << endl;175
-		cout << "吨走" << driver->RPM<float>(UPawnMovementComponent + MaxWalkSpeedCrouched) << endl;135
-		cout << "游泳" << driver->RPM<float>(UPawnMovementComponent + MaxSwimSpeed) << endl;300
-		cout << "飞行" << driver->RPM<float>(UPawnMovementComponent + MaxFlySpeed) << endl;375
-		cout << "自定" << driver->RPM<float>(UPawnMovementComponent + MaxCustomMovementSpeed) << endl;500
-		cout << "未知" << driver->RPM<float>(UPawnMovementComponent + MaxAcceleration) << endl;700
-		cout << "自由" << driver->RPM<float>(UPawnMovementComponent + MaxSwimAcceleration) << endl;950
-			*/
+	
 
 		}
 		else {
@@ -406,21 +162,7 @@ void 寫入內存()
 		}
 
 	}
-	else {
-		/*
-
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxProneSpeed, 50.0f);//MaxProneSpeed
-		//driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxGroggySpeed, 100.0f);//MaxGroggySpeed
-		//driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxWalkSpeed, 175.0f);//MaxWalkSpeed
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxWalkSpeedCrouched, 135.0f);//MaxWalkSpeedCrouched
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxSwimSpeed, 300.0f);//MaxSwimSpeed
-		//driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxFlySpeed, 375.0f);//MaxFlySpeed
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxCustomMovementSpeed, 500.0f);//MaxCustomMovementSpeed
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxAcceleration, 600.0f);//MaxAcceleration
-		driver->WPM<float>(UPawnMovementComponent + characterMovementComponent::MaxSwimAcceleration, 950.0f);//MaxSwimAcceleration
-		*/
-	}
-
+	
 
 
 
@@ -697,68 +439,7 @@ void 繪製實體() {
 		//計算角度方法一
 		Vector3 當前視角 = WorldToScreen(driver->RPM<Vector3>(全局變量::PlayerCameraManager + cameraManager::Location));
 		int 角度 = 實體屏幕座標.Distance(當前視角);
-		//方法二
-		//FRotator 當前視角 = driver->RPM<FRotator>(全局變量::playerController + localPlayerAddr::ControlRotation);
-		//ULONG64 tmp = 0;
-		//ULONG64 tmp2 = 0;
-		//ULONG64 tmp3 = 0;
-		/*
-		ULONG64 WeaponProcessor = driver->RPM<ULONG64>(全局變量::pPawn + localPlayerAddr::WeaponProcessor);
-		
 
-			ULONG64 EquippedWeapons = driver->RPM<ULONG64>(WeaponProcessor +WeaponProcessor::EquippedWeapons);
-
-			for (int i = 0x200; i < 0x600; i++) {
-
-				BYTE CurrentWeaponIndex = driver->RPM<BYTE>(WeaponProcessor + i+0x1 ); //因為改版更新  需要改成int->Byte  還要加上0x1
-				if (CurrentWeaponIndex >= 0 && CurrentWeaponIndex < 3) {
-
-
-
-
-					ULONG64 pWeapon = driver->RPM<ULONG64>(EquippedWeapons + CurrentWeaponIndex * 0x8);
-					if (pWeapon) {
-						ULONG64 pTrajectoryWeaponData = (pWeapon + EquippedWeapons::FTrajectoryWeaponData);//
-					
-					
-						//for (int b = 0x10; b < 0x400; b++) {
-
-							float InitialSpeed2 = driver->RPM<float>(pTrajectoryWeaponData + EquippedWeapons::InitialSpeed);
-							//
-							//
-							//cout << hex << "CurrentWeaponIndex" << CurrentWeaponIndex << endl;
-
-					
-							if (InitialSpeed2 == 880) {
-
-
-								cout << hex << "CurrentWeaponIndex" << i << endl;
-								cout << hex << "CurrentWeaponIndex" << i*0x1 << endl;
-								cout << hex << "CurrentWeaponIndex" << CurrentWeaponIndex << endl;
-								cout << "Speed" << InitialSpeed2 << endl;
-								WeaponProcessor::CurrentWeaponIndex = i;
-								Beep(300, 40);
-								system("pause");
-							}
-							//continue;
-						//}
-
-
-
-					}
-
-				}
-				continue;
-			}
-			
-	*/
-		
-		//if (ID == Actorids[0] || ID == Actorids[1] || ID == Actorids[2] || ID == Actorids[3]).
-
-		
-
-		//render->繪製文字(實體屏幕座標.x, 實體屏幕座標.y, Color{ 255, 255, 0, 0 }, NULL, "%s||%d", GetNameFromID(全局變量::pGn, ID),ID);
-		
 		if(ID == Actorids[0])
 		{
 		
@@ -771,11 +452,10 @@ void 繪製實體() {
 		
 			
 		
-			//自动白名单
+			//隊友
 			int team = DecryptGeneral(driver->RPM<int>(實體 + actor::team));
 			int team2 = DecryptGeneral(driver->RPM<int>(全局變量::pPawn + actor::team));
-			//if (team)//适用于 单纯是不是队友
-				//continue;
+		
 		   if (team2 == team)//用TeamNumer
 		       continue;
 				//雷達
